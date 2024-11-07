@@ -291,15 +291,15 @@ We recommend you don't adjust `nrep` or `varThreshold`, as this can make it take
 ```{r}
 subsetted = 0.2 # Change this to specify the proportion of the data you want to use for this exploration
 rsample <- sample(c(TRUE, FALSE), size = n3, replace = TRUE, prob = c(subsetted, 1-subsetted))
-# FIXME
-EWP_object <- exploreWSIRParams(exprs = exprs3[rsample,],
+
+EWP_object <- exploreWSIRParams(X = exprs3[rsample,],
                                 coords = coords3[rsample,],
                                 nrep = 3, # This function computes a random train/test split of the data nrep times
                                 varThreshold = 0.95,
-                                alpha_vals = c(0,4,10,20),
-                                slice_vals = c(5,10,15,20))
+                                optim_alpha = c(0,4,10,20),
+                                optim_slices = c(5,10,15,20))
 
-ggplot(EWP_object$results_dataframe, aes(x = alpha, y = slices, fill = value)) +
+ggplot(EWP_object$results_dataframe, aes(x = factor(alpha), y = slices, fill = metric)) +
   geom_tile() +
   theme_classic() +
   scale_fill_viridis_c() +
@@ -323,8 +323,8 @@ wsir_object <- wSIR::wSIR(X = exprs3,
                           coords = coords3,
                           optim_params = TRUE,
                           nrep = 3,
-                          alpha_vals = c(0,5,10),
-                          slice_vals = c(8,12,15),
+                          optim_alpha = c(0,5,10),
+                          optim_slices = c(8,12,15),
                           varThreshold = 0.95)
 
 # wSIR specifying some parameter values
@@ -379,7 +379,7 @@ all contain information about cell types, which we can tell by the regions of
 high and low wSIR column values spread across the tissue. 
 
 ```{r}
-vis_obj = visualiseWSIRDirections(coords = sample1_coords, WSIR = wsir_obj, dirs = 8) # create visualisations
+vis_obj = visualiseWSIRDirections(coords = coords3, WSIR = wsir_obj, dirs = 8) # create visualisations
 vis_obj
 ```
 
@@ -412,7 +412,7 @@ that the wSIR space separates cells based on their expression for those genes.
 
 ```{r}
 umap_coords = generateUmapFromWSIR(WSIR = wsir_obj)
-umap_plots = plotUmapFromWSIR(X = sample1_exprs,
+umap_plots = plotUmapFromWSIR(X = exprs3,
                               umap_coords = umap_coords,
                               highest_genes = top_genes_obj,
                               n_genes = 6)
@@ -442,7 +442,7 @@ Here, we will show how this method can be applied to Tangram, a popular deep-lea
 
 For this simulation, we will use embryo 3 as our spatial sample, and embryo 1 as our single-cell sample. The method workflow is detailed below. The concept will be to use the wSIR low-dimensional embedding to predict the spatial coordinates of the single-cell data.
 
-![Tangram downstream analysis example workflow](/tangram_workflow.png)
+![Tangram downstream analysis example workflow](inst/images/tangram_workflow.png)
 
 Note that for this workshop, we will not actually compute the Tangram predicted coordinates, as it takes too long to run. We will load in the predicted coordinates which we have already computed, and we will create a results plot from that. 
 
@@ -504,10 +504,9 @@ dim(proj1_from23) # gene expression data from sample 1 projected into low-dimens
 
 We will not explore it here, but our results (manuscript on the way!) show that wSIR performance improves when you incorporate multiple spatial samples. Therefore, if you are in a situation where you do have multiple spatial samples, it is best to use wSIR and account for the multiple samples as above. 
 
+Finish
 
-
-
-
-
-
+```{r}
+sessionInfo()
+```
 

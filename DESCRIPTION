@@ -1,4 +1,4 @@
-Package:BioCAsia2024wSIR
+Package: BioCAsia2024wSIR
 Title: wSIR: Weighted Sliced Inverse Regression for supervised dimension reduction of spatial transcriptomics and single cell gene expression data
 Version: 2.0.1
 Authors@R: c(
@@ -17,7 +17,7 @@ License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.1.0
+RoxygenNote: 7.3.2
 Depends: 
     wSIR,
     magrittr,
@@ -31,4 +31,4 @@ Remotes: SydneyBioX/wSIR
 URL: https://github.com/SydneyBioX/BioCAsia_2024_wSIR
 BugReports: https://github.com/SydneyBioX/BioCAsia_2024_wSIR/issues/new/choose
 VignetteBuilder: knitr
-DockerImage: ghcr.io/sydneybiox/BioCAsia_2024_wSIR:latest
+DockerImage: ghcr.io/sydneybiox/BioCAsia2024wSIR:latest
